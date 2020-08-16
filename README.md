@@ -1,4 +1,4 @@
-# Reddit Comments Analyzer
+# Comments Analyzer
 Comments-Analyzer is a website aimed at analyzing comments made on reddit posts. What happens is the user provides the website with a post URL, then Comments-Analyzer then scrapes
 the comments from the aformentioned post and then return with an analysis of of all the comments within that particuler post. 
 
