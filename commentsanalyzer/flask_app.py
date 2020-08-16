@@ -3,13 +3,13 @@ from joblib import load
 # from pickle import load
 import praw
 import os
-import news_prediction
 import configparser
 import logging
 
 app = Flask(__name__, template_folder='templates')
 
 full_url = ''
+topic = ''
 HEADER_PHOTO = os.path.join('static', 'img')
 app.config['PHOTO'] = HEADER_PHOTO
 logging.debug('This is a debug message')
@@ -57,14 +57,29 @@ def get_comments(submission):
 
 
 def get_clf():
-    file = open("reddit_classifier_FINAL_LOCAL.joblib", "rb")
+    if topic == 'General':
+        file = open("reddit_classifier_FINAL_LOCAL.joblib", "rb")
+        print("General Model")
+    elif topic == 'News':
+        file = open("reddit_classifier_FINAL_news_v0.joblib", "rb")
+        print("News Model")
+    elif topic == "Football":
+        file = open("reddit_classifier_FINAL_football_v0.joblib", "rb")
+        print("Football Model")
     clf = load(file)
     file.close()
     return clf
 
 
 def get_vectorizer():
-    file = open("TfidfVectorizer_vectorizer_LOCAL.joblib", "rb")
+    if topic == 'General':
+        file = open("TfidfVectorizer_vectorizer_LOCAL.joblib", "rb")
+        print("General vectorizer")
+    elif topic == 'News':
+        file = open("TfidfVectorizer_vectorizer_news_v0.joblib", "rb")
+        print("News vectorizer")
+    elif topic == "Football":
+        file = open("TfidfVectorizer_vectorizer_football_v0.joblib","rb")
     vector = load(file)
     file.close()
     return vector
@@ -90,9 +105,11 @@ def get_percentage(neg_weight, neu_weight, pos_weight):
     print("Neutral: " + str(round((neu_weight / total) * 100, 2)))
     print("Positive: " + str(round((pos_weight / total) * 100, 2)))
     values_dict = {
+        "Total": total,
         "Negative": neg_weight,
         "Neutral": neu_weight,
-        "Positive": pos_weight
+        "Positive": pos_weight,
+        "Topic": topic
     }
     logging.info("values_dict")
     print(values_dict)
@@ -107,7 +124,10 @@ def pipeline(url):
 
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
+    global topic
+    topic = request.form.get("Dropdown")
     if request.method == 'POST':
+        print(topic)
         thread = request.form['Analyze']
         global full_url
         full_url = thread

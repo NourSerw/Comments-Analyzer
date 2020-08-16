@@ -1,18 +1,20 @@
 <div class="topnav">
     <a class="active" href="#home">Home</a>
+    <div style="padding-left:16px">
+        <h2> Comments Analyzer </h2>
+    </div>
     <div class="search-container">
-        <form action="http://localhost:5000/" method="post">
+        <form action="http://localhost:5000/" method="POST">
             <input type="text" placeholder="Search" name="Analyze">
             <button type="submit"><i class="fa -fa-search"></i></button>
-            <label for="Topic">Choose a topic:</label>
-            <select name="topics" id="topics">
-                <option value="General">General</option>
-                <option value="News">News</option>
+            <br><br>
+            <select class="topics" id="DropdownSelector" type="text" name="Dropdown" placeholder="Select Topic">
+                <option disabled selected>Select a topic</option>
+                <option id="general" value="General">General</option>
+                <option id="News" value="News">News</option>
+                <option id="Sports" value="Football">Football</option>
             </select>
         </form>
     </div>
 </div>
 
-<div style="padding-left:16px">
-    <h2> Comments Analyzer </h2>
-</div> 

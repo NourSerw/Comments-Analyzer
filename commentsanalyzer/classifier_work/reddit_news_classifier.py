@@ -14,7 +14,7 @@ from sklearn.model_selection import train_test_split
 
 
 def main():
-    df = pd.read_csv('F:\\dev\\commentsanalyzer\\classifier_work\\reddit_news_dataframe_labelled.csv')
+    df = pd.read_csv('F:\\dev\\Comments-Analyzer\\commentsanalyzer\\classifier_work\\reddit_news_dataframe_labelled.csv')
     print("CSV loaded")
     print(df.shape)
     df.dropna(inplace=True)
@@ -37,13 +37,13 @@ def main():
     classifier_linear.fit(train_vector, y_train)
     prediction_linear = classifier_linear.predict(test_vector)
     report = classification_report(y_test, prediction_linear, output_dict=True)
-    print('positive: ', report['[1]'])
-    print('negative: ', report['[-1]'])
-    print('neutral: ', report['[0]'])
-    report_final = classification_report(y_test, prediction_linear, target_names=['[-1]', '[0]', '[1]'])
+    print('positive: ', report['1'])
+    print('negative: ', report['-1'])
+    print('neutral: ', report['0'])
+    report_final = classification_report(y_test, prediction_linear, target_names=['-1', '0', '1'])
     print(report_final)
-    dump(classifier_linear, '../reddit_classifier_FINAL_news.joblib')
-    dump(vectorizer, '../TfidfVectorizer_vectorizer_news.joblib')
+    dump(classifier_linear, '../reddit_classifier_FINAL_news_v0.joblib')
+    dump(vectorizer, '../TfidfVectorizer_vectorizer_news_v0.joblib')
 
 def remove_noise(text):
     clean_text = []
