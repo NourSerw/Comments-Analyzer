@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from joblib import load
 # from pickle import load
 import praw
 import os
 import configparser
 import logging
+import nltk
+from nltk.probability import FreqDist
 
 app = Flask(__name__, template_folder='templates')
 
@@ -79,13 +81,15 @@ def get_vectorizer():
         file = open("TfidfVectorizer_vectorizer_news_v0.joblib", "rb")
         print("News vectorizer")
     elif topic == "Football":
-        file = open("TfidfVectorizer_vectorizer_football_v0.joblib","rb")
+        file = open("TfidfVectorizer_vectorizer_football_v0.joblib", "rb")
     vector = load(file)
     file.close()
     return vector
 
 
 def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
+    fdsit = FreqDist()
+    stopwords = nltk.corpus.stopwords.words('english')
     for comment in posts:
         review_vector = vector.transform([comment])
         label = clf.predict(review_vector)
@@ -95,24 +99,33 @@ def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
             neu_weight += 1
         elif label == 1:
             pos_weight += 1
-    return get_percentage(neg_weight, neu_weight, pos_weight)
+        allWords = nltk.tokenize.word_tokenize(comment)
+        allWordExceptStopDist = nltk.FreqDist(w.lower() for w in allWords if w not in stopwords)
+        allWordExceptStopDist_02 = nltk.FreqDist(w.lower() for w in allWordExceptStopDist if w.isalnum())
+        mostCommon= allWordExceptStopDist_02.most_common(10)
+    return get_percentage(neg_weight, neu_weight, pos_weight, mostCommon)
 
 
-def get_percentage(neg_weight, neu_weight, pos_weight):
+def get_percentage(neg_weight, neu_weight, pos_weight, mostCommon):
     total = neg_weight + neu_weight + pos_weight
     print("Percentage of sentiment as following: ")
     print("Negative: " + str(round((neg_weight / total) * 100, 2)))
     print("Neutral: " + str(round((neu_weight / total) * 100, 2)))
     print("Positive: " + str(round((pos_weight / total) * 100, 2)))
-    values_dict = {
+    values_dict = [{
         "Total": total,
         "Negative": neg_weight,
         "Neutral": neu_weight,
         "Positive": pos_weight,
         "Topic": topic
-    }
+        },
+        {
+            "neg_percentage": str(round((neg_weight / total) * 100, 2)),
+            "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
+            "positive_percentage": str(round((pos_weight / total) * 100, 2)),
+            "most_common_words": mostCommon
+        }]
     logging.info("values_dict")
-    print(values_dict)
     return values_dict
 
 
@@ -132,10 +145,10 @@ def get_data():
         global full_url
         full_url = thread
         thread = thread.split('/', 8)[7]
-        return redirect(url_for('success', name=thread))
+        return jsonify(pipeline(full_url))
 
 
-@app.route('/success/<name>')
+@app.route('/success/v1/<name>')
 def success(name):
     return "<xmp>" + str(pipeline(full_url)) + " </xmp> "
 
