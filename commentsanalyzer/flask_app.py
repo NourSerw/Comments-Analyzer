@@ -12,6 +12,7 @@ app = Flask(__name__, template_folder='templates')
 
 full_url = ''
 topic = ''
+submission = ''
 HEADER_PHOTO = os.path.join('static', 'img')
 app.config['PHOTO'] = HEADER_PHOTO
 logging.debug('This is a debug message')
@@ -41,6 +42,7 @@ def reddit_credit(url):
                              client_secret=str(Config.get('RedditCredit', 'client_secret')))
     except Exception as e:
         logging.exception("Excpetion occured - reddit_credit()")
+    global submission
     submission = reddit.submission(url=url)
     if submission is None:
         logging.critical('Reddit instance was not retrieved, please check credentials')
@@ -124,7 +126,12 @@ def get_percentage(neg_weight, neu_weight, pos_weight, mostCommon):
             "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
             "positive_percentage": str(round((pos_weight / total) * 100, 2)),
             "most_common_words": mostCommon
-        }]
+        },
+        {
+            "Post title": submission.title,
+            "score": submission.score
+        }
+    ]
     logging.info("values_dict")
     return values_dict
 
