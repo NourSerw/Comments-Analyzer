@@ -7,9 +7,11 @@ import configparser
 import logging
 import nltk
 from nltk.probability import FreqDist
+from flask_bootstrap import Bootstrap
 
-app = Flask(__name__, template_folder='templates')
-
+# app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
+Bootstrap(app)
 full_url = ''
 topic = ''
 submission = ''
@@ -27,10 +29,9 @@ logging.basicConfig(filename='commentsanalyzer_flask.log', filemode='a',
 logger = logging.getLogger("commentsanalyzer_flask")
 
 
-@app.route("/")
-def main():
-    photo = os.path.join(app.config['PHOTO'], 'pp.jpg')
-    return render_template('home_page.html', header_image=photo)
+# @app.route("/")
+# def main():
+#    return render_template('index.html')
 
 
 def reddit_credit(url):
@@ -104,7 +105,7 @@ def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
         allWords = nltk.tokenize.word_tokenize(comment)
         allWordExceptStopDist = nltk.FreqDist(w.lower() for w in allWords if w not in stopwords)
         allWordExceptStopDist_02 = nltk.FreqDist(w.lower() for w in allWordExceptStopDist if w.isalnum())
-        mostCommon= allWordExceptStopDist_02.most_common(10)
+        mostCommon = allWordExceptStopDist_02.most_common(10)
     return get_percentage(neg_weight, neu_weight, pos_weight, mostCommon)
 
 
@@ -120,7 +121,7 @@ def get_percentage(neg_weight, neu_weight, pos_weight, mostCommon):
         "Neutral": neu_weight,
         "Positive": pos_weight,
         "Topic": topic
-        },
+    },
         {
             "neg_percentage": str(round((neg_weight / total) * 100, 2)),
             "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
@@ -152,13 +153,16 @@ def get_data():
         global full_url
         full_url = thread
         thread = thread.split('/', 8)[7]
-        return jsonify(pipeline(full_url))
+        return redirect(url_for("success", name=thread))
+    else:
+        return render_template('index.html')
 
 
 @app.route('/success/v1/<name>')
 def success(name):
-    return "<xmp>" + str(pipeline(full_url)) + " </xmp> "
+    return jsonify(pipeline(full_url))
+    #render_template("query_result.html")
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

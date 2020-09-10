@@ -1,9 +1,15 @@
+
+<html>
 <div class="topnav">
     <a class="active" href="#home">Home</a>
     <div style="padding-left:16px">
+        {% block head %}
+        <title>{% block title %} {% endblock %}</title>
         <h1>Comments Analyzer</h1>
         <h2>Reddit</h2>
+        {% endblock %}
     </div>
+    {% block content %}
     <div class="search-container">
         <form action="http://localhost:5000/" method="POST">
             <input type="text" placeholder="Search" name="Analyze">
@@ -17,5 +23,7 @@
             </select>
         </form>
     </div>
+    {% endblock %}
 </div>
+</html>
 

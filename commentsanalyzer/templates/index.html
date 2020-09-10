@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} CommentsAnalyzer {% endblock %}
+{% block content %}
+<form action="http://localhost:5000/" method="POST">
+    <input type="text" placeholder="Search" name="Analyze">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <br><br>
+    <select class="topics" id="DropdownSelector" type="text" name="Dropdown" placeholder="Select Topic">
+        <option disabled selected>Select a topic</option>
+        <option id="general" value="General">General</option>
+        <option id="News" value="News">News</option>
+        <option id="Sports" value="Football">Football</option>
+    </select>
+</form>
+{% endblock %}
