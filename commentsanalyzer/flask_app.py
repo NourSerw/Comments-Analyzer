@@ -8,6 +8,7 @@ import logging
 import nltk
 from nltk.probability import FreqDist
 from flask_bootstrap import Bootstrap
+from nltk.tokenize import word_tokenize
 
 # app = Flask(__name__, template_folder='templates')
 app = Flask(__name__)
@@ -91,7 +92,6 @@ def get_vectorizer():
 
 
 def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
-    fdsit = FreqDist()
     stopwords = nltk.corpus.stopwords.words('english')
     for comment in posts:
         review_vector = vector.transform([comment])
@@ -102,14 +102,17 @@ def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
             neu_weight += 1
         elif label == 1:
             pos_weight += 1
-        allWords = nltk.tokenize.word_tokenize(comment)
-        allWordExceptStopDist = nltk.FreqDist(w.lower() for w in allWords if w not in stopwords)
-        allWordExceptStopDist_02 = nltk.FreqDist(w.lower() for w in allWordExceptStopDist if w.isalnum())
-        mostCommon = allWordExceptStopDist_02.most_common(10)
-    return get_percentage(neg_weight, neu_weight, pos_weight, mostCommon)
+        words = nltk.word_tokenize(comment)
+        words = [word for word in words if len(word) > 1]
+        words = [word for word in words if not word.isnumeric()]
+        words = [word.lower() for word in words]
+        words = [word for word in words if word not in stopwords]
+        fdist = nltk.FreqDist(words)
+    most_common = fdist.most_common(10)
+    return get_percentage(neg_weight, neu_weight, pos_weight, most_common)
 
 
-def get_percentage(neg_weight, neu_weight, pos_weight, mostCommon):
+def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
     total = neg_weight + neu_weight + pos_weight
     print("Percentage of sentiment as following: ")
     print("Negative: " + str(round((neg_weight / total) * 100, 2)))
@@ -126,7 +129,7 @@ def get_percentage(neg_weight, neu_weight, pos_weight, mostCommon):
             "neg_percentage": str(round((neg_weight / total) * 100, 2)),
             "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
             "positive_percentage": str(round((pos_weight / total) * 100, 2)),
-            "most_common_words": mostCommon
+            "most_common_words": most_common
         },
         {
             "Post title": submission.title,
@@ -161,7 +164,6 @@ def get_data():
 @app.route('/success/v1/<name>')
 def success(name):
     return jsonify(pipeline(full_url))
-    #render_template("query_result.html")
 
 
 if __name__ == "__main__":
