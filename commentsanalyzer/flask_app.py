@@ -1,38 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-from joblib import load
-# from pickle import load
-import praw
-import os
 import configparser
 import logging
+import os
+
 import nltk
-from nltk.probability import FreqDist
+# from pickle import load
+import praw
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_bootstrap import Bootstrap
-from nltk.tokenize import word_tokenize
+from joblib import load
+import twitter_app
+import json
 
 # app = Flask(__name__, template_folder='templates')
 app = Flask(__name__)
 Bootstrap(app)
 full_url = ''
-topic = ''
 submission = ''
+sm_key = {}
 HEADER_PHOTO = os.path.join('static', 'img')
 app.config['PHOTO'] = HEADER_PHOTO
-logging.debug('This is a debug message')
-logging.info('This is an info message')
-logging.warning('This is a warning message')
-logging.error('This is an error message')
-logging.critical('This is a critical message')
-logging.basicConfig(filename='commentsanalyzer_flask.log', filemode='a',
-                    format='%(name)s - %(levelname)s - %(message)s',
-                    datefmt='%H:%M:%S',
-                    level=logging.DEBUG)
-logger = logging.getLogger("commentsanalyzer_flask")
-
-
-# @app.route("/")
-# def main():
-#    return render_template('index.html')
 
 
 def reddit_credit(url):
@@ -63,13 +49,13 @@ def get_comments(submission):
 
 
 def get_clf():
-    if topic == 'General':
+    if sm_key['Topic'] == 'General':
         file = open("reddit_classifier_FINAL_LOCAL.joblib", "rb")
         print("General Model")
-    elif topic == 'News':
+    elif sm_key['Topic'] == 'News':
         file = open("reddit_classifier_FINAL_news_v0.joblib", "rb")
         print("News Model")
-    elif topic == "Football":
+    elif sm_key['Topic'] == "Football":
         file = open("reddit_classifier_FINAL_football_v0.joblib", "rb")
         print("Football Model")
     clf = load(file)
@@ -78,13 +64,13 @@ def get_clf():
 
 
 def get_vectorizer():
-    if topic == 'General':
+    if sm_key['Topic'] == 'General':
         file = open("TfidfVectorizer_vectorizer_LOCAL.joblib", "rb")
         print("General vectorizer")
-    elif topic == 'News':
+    elif sm_key['Topic'] == 'News':
         file = open("TfidfVectorizer_vectorizer_news_v0.joblib", "rb")
         print("News vectorizer")
-    elif topic == "Football":
+    elif sm_key['Topic'] == "Football":
         file = open("TfidfVectorizer_vectorizer_football_v0.joblib", "rb")
     vector = load(file)
     file.close()
@@ -136,7 +122,6 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
             "score": submission.score
         }
     ]
-    logging.info("values_dict")
     return values_dict
 
 
@@ -148,15 +133,38 @@ def pipeline(url):
 
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
-    global topic
-    topic = request.form.get("Dropdown")
+    global sm_key
+    sm_key = {"Platform": None,
+              "Topic": None,
+              "Source": None}
+    global full_url
+    if request.form.get("Dropdown") and request.form.get("Dropdown").strip():
+        sm_key['Platform'] = 0
+        sm_key['Topic'] = request.form.get("Dropdown")
+    elif request.form.get("Dropdown_twitter") and request.form.get("Dropdown_twitter").strip():
+        sm_key['Platform'] = 1
+        sm_key['Topic'] = request.form.get("Dropdown_twitter")
+        sm_key['Source'] = request.form.get("Dropdown_twitter_source")
+        print("Twitter dropdown touched!")
     if request.method == 'POST':
-        print(topic)
-        thread = request.form['Analyze']
-        global full_url
-        full_url = thread
-        thread = thread.split('/', 8)[7]
-        return redirect(url_for("success", name=thread))
+        if sm_key['Platform'] == 0:
+            print(sm_key)
+            thread = request.form['Analyze']
+            full_url = thread
+            thread = thread.split('/', 8)[7]
+            return redirect(url_for("success", name=thread))
+        elif sm_key['Platform'] == 1:
+            print(sm_key)
+            thread = request.form['Analyze_twitter']
+            print(thread)
+            if sm_key['Source'] == 'Hashtag':
+                full_url = "hashtag_search?" + thread
+                twitter_pipeline = {
+                    "Topic": sm_key['Topic'],
+                    "Source": sm_key['Source'],
+                    "Data": thread
+                }
+            return redirect(url_for("twitter_success", name=twitter_pipeline))
     else:
         return render_template('index.html')
 
@@ -164,6 +172,13 @@ def get_data():
 @app.route('/success/v1/<name>')
 def success(name):
     return jsonify(pipeline(full_url))
+
+
+@app.route('/twitter_success/v1/<name>')
+def twitter_success(name):
+    name = name.replace("'", "\"")
+    name = json.loads(name)
+    return jsonify(twitter_app.twitter_pipeline(name))
 
 
 if __name__ == "__main__":
