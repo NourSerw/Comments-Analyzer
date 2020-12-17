@@ -109,7 +109,7 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
         "Negative": neg_weight,
         "Neutral": neu_weight,
         "Positive": pos_weight,
-        "Topic": topic
+        "Topic": sm_key['Topic']
     },
         {
             "neg_percentage": str(round((neg_weight / total) * 100, 2)),
