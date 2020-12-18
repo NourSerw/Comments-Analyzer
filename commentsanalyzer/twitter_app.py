@@ -23,22 +23,48 @@ def get_vectorizer():
     return vector
 
 
+def get_original_tweet():
+    url = "https://api.twitter.com/labs/2/tweets?ids=" + data_dict_local['Data']
+    get_tweet = requests.get(url, headers=get_bearer_token())
+    get_tweet = get_tweet.json()
+    original_tweet = get_tweet['data'][0]['text']
+    return original_tweet
+
+
+def get_bearer_token():
+    config = configparser.ConfigParser(interpolation=None)
+    config.read("F:\\dev\\.git\\twitter_config.ini")
+    headers = {"Authorization": "Bearer {}".format(str(config.get('TwitterCredit', 'bearer_token')))}
+    return headers
+
+
 def twitter_pipeline(data_dict):
     global data_dict_local
     data_dict_local = data_dict
     if data_dict['Source'] == "Hashtag":
         posts = get_hashtag(data_dict["Data"])
         return twitter_prediction(posts)
+    elif data_dict['Source'] == "Singular_tweet":
+        posts = get_conversation(data_dict["Data"])
+        return twitter_prediction(posts)
+
+
+def get_conversation(data):
+    posts = []
+    conversation_url = "https://api.twitter.com/2/tweets/search/recent?tweet.fields=author_id&query=conversation_id:" \
+                       + data
+    convo_response = requests.request("GET", conversation_url, headers=get_bearer_token())
+    convo_response = convo_response.json()
+    for i in range(0, len(convo_response['data'])):
+        posts.append(convo_response['data'][i]['text'])
+    return posts
 
 
 def get_hashtag(data):
     url = "https://api.twitter.com/2/tweets/search/recent?query="
     twitter_params = data + " -is:retweet"
     url = url + twitter_params
-    config = configparser.ConfigParser(interpolation=None)
-    config.read("F:\\dev\\.git\\twitter_config.ini")
-    headers = {"Authorization": "Bearer {}".format(str(config.get('TwitterCredit', 'bearer_token')))}
-    response = requests.request("GET", url, headers=headers)
+    response = requests.request("GET", url, headers=get_bearer_token())
     res_json = response.json()
     posts = []
     for i in range(0, len(res_json['data'])):
@@ -90,10 +116,9 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
 
     if data_dict_local['Source'] == "Hashtag":
         values_dict['Hashtag'] = data_dict_local['Data']
-    elif data_dict_local['Source'] == "Tweet":
-        values_dict['Tweet'] = data_dict_local['Data']
+    elif data_dict_local['Source'] == "Singular_tweet":
+        values_dict['Tweet'] = get_original_tweet()
 
-
-# print("Type of values_dict: ", type(values_dict))
+    # print("Type of values_dict: ", type(values_dict))
 
     return values_dict

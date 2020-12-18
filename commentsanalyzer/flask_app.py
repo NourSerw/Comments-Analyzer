@@ -164,6 +164,14 @@ def get_data():
                     "Source": sm_key['Source'],
                     "Data": thread
                 }
+            elif sm_key['Source'] == 'Singular_tweet':
+                full_url = thread
+                twitter_pipeline = {
+                    "Topic": sm_key['Topic'],
+                    "Source": sm_key['Source'],
+                    "Data": thread.split('/', 5)[5]
+                }
+                print(twitter_pipeline)
             return redirect(url_for("twitter_success", name=twitter_pipeline))
     else:
         return render_template('index.html')
