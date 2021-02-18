@@ -13,3 +13,5 @@ the comments from the aformentioned post and then return with an analysis of of 
 
 ## V 2.0
 **2.1**: I have started and finished the second phase using twitter API. Now the application can fetch tweets from hashtags and/or replied to tweets. Currently I am using the free version of the twitter API so of course there is limitation to the amount of information retrieved.  
+
+**2.2**: I am done with the general model and so far workds fine. Now I'm in the process of a new approach: Created two classification models for predicting football tweets and using them both to predict and comapre their confidence levels to pick the best prediction. As of this moment this has yet to be implemented.
