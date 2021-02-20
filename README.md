@@ -2,7 +2,7 @@
 Comments-Analyzer is a website aimed at analyzing comments made on reddit posts. What happens is the user provides the website with a post URL, then Comments-Analyzer then scrapes
 the comments from the aformentioned post and then return with an analysis of of all the comments within that particuler post. 
 
-**CURRENT VERSION: 2.1**
+**CURRENT VERSION: 2.3**
 
 ## V 1.0
 **1.1**:  There are two models at the moment: The general model and the news-tailored model. Now only the general model has been implemented but the second model has already been built. So the plan here is to give the option to use either model to predict.
@@ -15,3 +15,5 @@ the comments from the aformentioned post and then return with an analysis of of 
 **2.1**: I have started and finished the second phase using twitter API. Now the application can fetch tweets from hashtags and/or replied to tweets. Currently I am using the free version of the twitter API so of course there is limitation to the amount of information retrieved.  
 
 **2.2**: I am done with the general model and so far workds fine. Now I'm in the process of a new approach: Created two classification models for predicting football tweets and using them both to predict and comapre their confidence levels to pick the best prediction. As of this moment this has yet to be implemented.
+
+**2.3**: I am done with the twitter model, for the time being I have shelved the idea of implementing two competitive models and will file it as a spike, maybe in the future I can implement it. But for now analysis on twitter football hashtags and twwet conversations is complete.

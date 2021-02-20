@@ -12,6 +12,10 @@ def get_clf():
         file = open("twitter_classifier_FINAL_general_v0.joblib", "rb")
         print("General Model_Twitter")
         clf = load(file)
+    elif data_dict_local['Topic'] == 'Football':
+        file = open("twitter_classifier_football_v0.joblib", "rb")
+        print("Football Model_Twitter")
+        clf = load(file)
     return clf
 
 
@@ -19,6 +23,10 @@ def get_vectorizer():
     if data_dict_local['Topic'] == 'General':
         file = open("twitter_vectorizer_general_v0.joblib", "rb")
         print("General vectorizer_twitter")
+        vector = load(file)
+    elif data_dict_local['Topic'] == 'Football':
+        file = open("twitter_vectorizer_football_v0.joblib", "rb")
+        print("Football vectorizer_Twitter")
         vector = load(file)
     return vector
 
