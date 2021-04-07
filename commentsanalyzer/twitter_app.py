@@ -41,7 +41,7 @@ def get_original_tweet():
 
 def get_bearer_token():
     config = configparser.ConfigParser(interpolation=None)
-    config.read("F:\\dev\\.git\\twitter_config.ini")
+    config.read("/Users/rana/Documents/Sandbox/Comments-Analyzer/twitter_config.ini")
     headers = {"Authorization": "Bearer {}".format(str(config.get('TwitterCredit', 'bearer_token')))}
     return headers
 
