@@ -23,7 +23,7 @@ app.config['PHOTO'] = HEADER_PHOTO
 
 def reddit_credit(url):
     Config = configparser.ConfigParser()
-    Config.read("/Users/rana/Documents/Sandbox/Comments-Analyzer/config_flask.ini")
+    Config.read(os.path.expanduser("~/Documents/Sandbox/Comments-Analyzer/config_flask.ini"))
     try:
         reddit = praw.Reddit(user_agent=str(Config.get('RedditCredit', 'user_agent')),
                              client_id=str(Config.get('RedditCredit', 'client_id')),
