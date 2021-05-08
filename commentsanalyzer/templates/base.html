@@ -15,18 +15,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="about.html" >About</a>
-            <a class="nav-item nav-link" href="#">Contact</a>
-            <a class="nav-item nav-link" href="#">Changelog</a>
+            <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="{{url_for('about')}}" >About <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="{{url_for('contact')}}">Contact</a>
+            <a class="nav-item nav-link active" href="{{url_for('change_log')}}">Changelog</a>
         </div>
     </div>
 </nav>
-<h2> Reddit </h2>
+
     <p>{% block content %}
         {% endblock %}</p>
 <br>
-<h2> Twitter </h2>
+
     <p>{% block content_twitter %}
         {% endblock %}</p>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

@@ -10,6 +10,8 @@ from flask_bootstrap import Bootstrap
 from joblib import load
 import twitter_app
 import json
+from werkzeug.exceptions import abort
+
 
 # app = Flask(__name__, template_folder='templates')
 app = Flask(__name__)
@@ -104,24 +106,20 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
     print("Negative: " + str(round((neg_weight / total) * 100, 2)))
     print("Neutral: " + str(round((neu_weight / total) * 100, 2)))
     print("Positive: " + str(round((pos_weight / total) * 100, 2)))
-    values_dict = [{
+    values_dict = {
         "Total": total,
         "Negative": neg_weight,
         "Neutral": neu_weight,
         "Positive": pos_weight,
-        "Topic": sm_key['Topic']
-    },
-        {
-            "neg_percentage": str(round((neg_weight / total) * 100, 2)),
-            "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
-            "positive_percentage": str(round((pos_weight / total) * 100, 2)),
-            "most_common_words": most_common
-        },
-        {
-            "Post title": submission.title,
-            "score": submission.score
+        "Topic": sm_key['Topic'],
+        "neg_percentage": str(round((neg_weight / total) * 100, 2)),
+        "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
+        "positive_percentage": str(round((pos_weight / total) * 100, 2)),
+        "most_common_words": most_common,
+        "Post title": submission.title,
+        "score": submission.score
         }
-    ]
+
     return values_dict
 
 
@@ -177,16 +175,34 @@ def get_data():
         return render_template('index.html')
 
 
-@app.route('/success/v1/<name>')
+@app.route('/reddit_success/v1/<name>')
 def success(name):
-    return jsonify(pipeline(full_url))
+    result = pipeline(full_url)
+    print(result)
+    return render_template('query_result.html', results=result)
 
 
 @app.route('/twitter_success/v1/<name>')
 def twitter_success(name):
     name = name.replace("'", "\"")
     name = json.loads(name)
-    return jsonify(twitter_app.twitter_pipeline(name))
+    result = twitter_app.twitter_pipeline(name)
+    #return jsonify(twitter_app.twitter_pipeline(name))
+    return render_template('query_result.html', results=result)
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/changelog')
+def change_log():
+    return render_template('changelog.html')
 
 
 if __name__ == "__main__":

@@ -1,5 +1,45 @@
+<!DOCTYPE html>
 {% extends "base.html" %}
-{% block title %} About {% endblock %}
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+{% block content %}
+<body>
 <h1> Comments Analyzer - Find out what they really think</h1>
+<p> Basically what we do is find the top-level comments of Reddit post and the replies of any tweet you supply and then
+    we do something called sentiment analysis depending on the context of the text. This sentiment analysis uses Natural
+    Language Processing (NLP), a field of Data Science. You can read more about it <a href="https://becominghuman.ai/a-
+    simple-introduction-to-natural-language-processing-ea66a1747b32#:~:text=Natural%20Language%20Processing%2C%20
+    usually%20shortened,a%20manner%20that%20is%20valuable." target="_blank"> here. </a> </p>
 
+<h4> How does it work with Reddit?</h4>
+<p> I'll give an overview on how it works and then I'll dive in the technicality later on. Now how it works generally is
+    rather simple, first I retrieve all the top-level comments on the post and save them. The reason I don't retrieve
+    all the comments is a pure business and logical decision, as a big fan of Reddit myself I usually find that some
+    of the comments (especially the ones replying to the top level comments) tends to steer away from the topic and talk
+    about something else entirely. Thus the reason I only take the top level comments. After that I then run my model
+    on each comment to find its sentiment whether it be: positive, negative, or neutral. Then I add them up and give you
+    the percentage of each sentiment as well as some other information concerning the post</p>
+<h5> Now the more technical stuff</h5>
+<p> I used a number of libraries to do this. First I used the Python Reddit API Wrapper (more known as PRAW) in order to
+    create reddit instance and get the credentials needed to scrape Reddit. Here is the <a
+    href="https://praw.readthedocs.io/en/latest/index.html" target="_blank"> link </a> to the official documentation
+    to the library. To be frank it is one of the nicest documentations I ever came across. But before you are able to
+    use this library you need to sign up for Reddit API access. Here is a
+    <a href="https://www.reddit.com/wiki/api" target="_blank"> link </a> on how to do so. It's quite simple it should
+    not be much of a headache to achieve. Now after that I have a written a function jus to get all the comments
+    and then feed them into another function that does a number of things: First retrieves the pickled classifier and
+    the pickled vectorizer. For both Reddit and Twitter I used a TF-IDF Vectorizer and a C-Support Vector Classification
+    with a linear kernel. Then loop through the list going over each comment and predict the sentiment of each
+    individual comment, then add them all up to their respective weights. After that I use the Natural Language Toolkit
+    (known more commonly as NLTK) to find the FreqDist of the comments. Then after I get all these results I save it to
+    a Python dict(). </p>
+<br>
+<h4> How does it work with Twitter?</h4>
+<p> </p>
+
+</body>
+{% endblock %}
+</html>
