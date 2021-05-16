@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Results</title>
+    <title>{% block title %}Results{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='query_html.css') }}">
 </head>
-{% block content %}
+
 <body>
 <h1>Results as follows</h1>
-<p>{{ results }}</p>
+<div>
+<p class="_text_results">
+    Negative percentage: {{ results['neg_percentage'] }}
+    <br>Neutral percentage: {{ results['neutral_percentage'] }}
+    <br>Positive percentage: {{ results['positive_percentage'] }}</p>
+
+</div>
 </body>
 {% endblock %}
 </html>

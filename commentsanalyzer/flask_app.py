@@ -3,18 +3,17 @@ import logging
 import os
 
 import nltk
-# from pickle import load
+from werkzeug.exceptions import abort
 import praw
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_bootstrap import Bootstrap
 from joblib import load
 import twitter_app
 import json
-from werkzeug.exceptions import abort
-
 
 # app = Flask(__name__, template_folder='templates')
 app = Flask(__name__)
+app.static_folder = 'static'
 Bootstrap(app)
 full_url = ''
 submission = ''
@@ -118,7 +117,7 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
         "most_common_words": most_common,
         "Post title": submission.title,
         "score": submission.score
-        }
+    }
 
     return values_dict
 
@@ -143,18 +142,18 @@ def get_data():
         sm_key['Platform'] = 1
         sm_key['Topic'] = request.form.get("Dropdown_twitter")
         sm_key['Source'] = request.form.get("Dropdown_twitter_source")
-        print("Twitter dropdown touched!")
     if request.method == 'POST':
         if sm_key['Platform'] == 0:
             print(sm_key)
             thread = request.form['Analyze']
             full_url = thread
-            thread = thread.split('/', 8)[7]
-            return redirect(url_for("success", name=thread))
+            try:
+                thread = thread.split('/', 8)[7]
+                return redirect(url_for("success", name=thread))
+            except:
+                abort(404, "You have entered a wrong link, please go back and re-enter your link")
         elif sm_key['Platform'] == 1:
-            print(sm_key)
             thread = request.form['Analyze_twitter']
-            print(thread)
             if sm_key['Source'] == 'Hashtag':
                 full_url = "hashtag_search?" + thread
                 twitter_pipeline = {
@@ -164,13 +163,17 @@ def get_data():
                 }
             elif sm_key['Source'] == 'Singular_tweet':
                 full_url = thread
-                twitter_pipeline = {
-                    "Topic": sm_key['Topic'],
-                    "Source": sm_key['Source'],
-                    "Data": thread.split('/', 5)[5]
-                }
-                print(twitter_pipeline)
+                try:
+                    twitter_pipeline = {
+                        "Topic": sm_key['Topic'],
+                        "Source": sm_key['Source'],
+                        "Data": thread.split('/', 5)[5]
+                    }
+                    #return redirect(url_for("twitter_success", name=twitter_pipeline))
+                except:
+                    abort(404, "You have entered something wrong, please go back and re-enter your link/hashtag")
             return redirect(url_for("twitter_success", name=twitter_pipeline))
+
     else:
         return render_template('index.html')
 
@@ -178,7 +181,6 @@ def get_data():
 @app.route('/reddit_success/v1/<name>')
 def success(name):
     result = pipeline(full_url)
-    print(result)
     return render_template('query_result.html', results=result)
 
 
@@ -186,9 +188,11 @@ def success(name):
 def twitter_success(name):
     name = name.replace("'", "\"")
     name = json.loads(name)
-    result = twitter_app.twitter_pipeline(name)
-    #return jsonify(twitter_app.twitter_pipeline(name))
-    return render_template('query_result.html', results=result)
+    try:
+        result = twitter_app.twitter_pipeline(name)
+        return render_template('query_result.html', results=result)
+    except:
+        abort(404, "You have entered something wrong, please go back and re-enter your link/hashtag")
 
 
 @app.route('/about')
@@ -199,6 +203,7 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 @app.route('/changelog')
 def change_log():

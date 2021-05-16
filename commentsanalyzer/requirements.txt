@@ -1,0 +1,10 @@
+requests==2.24.0
+Flask_Bootstrap==3.3.7.1
+joblib==0.16.0
+praw==7.1.0
+nltk==3.5
+Werkzeug==1.0.1
+pandas==1.0.5
+Flask==1.1.2
+facebook_scraper==0.2.35
+scikit_learn==0.24.2

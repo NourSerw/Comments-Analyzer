@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 {% block title %} CommentsAnalyzer {% endblock %}
 {% block content %}
+<style>
+._form{
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 10px;
+}
+</style>
+
+<div class="_form">
 <h2> Reddit </h2>
-<form action="http://localhost:5000/" method="POST">
-    <input type="text" placeholder="Search" name="Analyze">
+<form id="reddit_form" action="http://localhost:5000/" method="POST" >
+    <input type="text" placeholder="Insert post link here" name="Analyze">
     <button type="submit" class="btn btn-primary">Submit</button>
     <br><br>
     <select class="topics" id="DropdownSelector" type="text" name="Dropdown" placeholder="Select Topic">
@@ -13,6 +23,7 @@
         <option id="Sports" value="Football">Football</option>
     </select>
 </form>
+
 {% endblock %}
 
 
@@ -25,8 +36,6 @@
     <select class="topics" id="DropdownSelector" type="text" name="Dropdown_twitter" placeholder="Select Topic">
         <option disabled selected>Select a topic</option>
         <option id="general" value="General">General</option>
-        <option id="News" value="News">News</option>
-        <option id="Sports" value="Football">Football</option>
     </select>
     <select class="tweet_source" id="DropdownSelector" type="text" name="Dropdown_twitter_source" placeholder="Select Source">
         <option disabled selected>Select Source</option>
@@ -34,4 +43,5 @@
         <option id="tweet" value="Singular_tweet">Singular Tweet</option>
     </select>
 </form>
+</div>
 {% endblock %}

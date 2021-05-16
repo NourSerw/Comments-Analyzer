@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About</title>
+    <title>{% block title %} About{% endblock %}</title>
 </head>
 {% block content %}
 <body>
+<p>
 <h1> Comments Analyzer - Find out what they really think</h1>
 <p> Basically what we do is find the top-level comments of Reddit post and the replies of any tweet you supply and then
     we do something called sentiment analysis depending on the context of the text. This sentiment analysis uses Natural
@@ -38,8 +39,21 @@
     a Python dict(). </p>
 <br>
 <h4> How does it work with Twitter?</h4>
-<p> </p>
-
+<p> Now with twitter there are two options on how I can extract the information needed supplied by you: Either I scrape
+a tweets with a specified hashtag or the replies to a tweet. Now this website does use the free tier of the Twitter
+API so there will be a limit on the number of tweets/replies retrieved. In the case this changes in the future (either
+I upgraded or the API somehow changes) I will post an update. Now with hashtags what happens is I retrieve the maximum
+number of replies, analyze each of them and find its sentiment: positive, neutral, and negative. While with tweets I
+retrieve the maximum of replies and find the sentiment of each reply. </p>
+<h5> Now the more technical stuff</h5>
+<p>
+I use the twitter API which is in this <a href="https://developer.twitter.com/en/docs/getting-started" target="_blank">
+link </a> where can read more about the API, how to register and so forth. Unlike PRAW, the Twitter API uses endpoints
+to retrieve either tweets, hashtags, users and so on, to be frank I'm only using a wee bit of the API for my purposes.
+I use the Python requests library to do a GET request of either the conversation ID or the hashtag which returns a JSON
+body with either the tweets or replies. I then use a classifier trained on tweets using a pickled C-Support Vector
+Classification and a TF-IDF Vectorizer (which is obviously a different one from the one used for the reddit posts)
+and then return it in a Python dict().</p>
 </body>
 {% endblock %}
 </html>

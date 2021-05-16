@@ -11,11 +11,8 @@ def get_clf():
     if data_dict_local['Topic'] == 'General':
         file = open("twitter_classifier_FINAL_general_v0.joblib", "rb")
         print("General Model_Twitter")
-        clf = load(file)
-    elif data_dict_local['Topic'] == 'Football':
-        file = open("twitter_classifier_football_v0.joblib", "rb")
-        print("Football Model_Twitter")
-        clf = load(file)
+    clf = load(file)
+    file.close()
     return clf
 
 
@@ -23,11 +20,8 @@ def get_vectorizer():
     if data_dict_local['Topic'] == 'General':
         file = open("twitter_vectorizer_general_v0.joblib", "rb")
         print("General vectorizer_twitter")
-        vector = load(file)
-    elif data_dict_local['Topic'] == 'Football':
-        file = open("twitter_vectorizer_football_v0.joblib", "rb")
-        print("Football vectorizer_Twitter")
-        vector = load(file)
+    vector = load(file)
+    file.close()
     return vector
 
 
@@ -64,7 +58,10 @@ def get_conversation(data):
     convo_response = requests.request("GET", conversation_url, headers=get_bearer_token())
     convo_response = convo_response.json()
     for i in range(0, len(convo_response['data'])):
-        posts.append(convo_response['data'][i]['text'])
+        temp_post = convo_response['data'][i]['text']
+        temp_post = " ".join(filter(lambda x: x[0] != '@', temp_post.split()))
+        posts.append(temp_post)
+    print(posts)
     return posts
 
 
@@ -76,7 +73,11 @@ def get_hashtag(data):
     res_json = response.json()
     posts = []
     for i in range(0, len(res_json['data'])):
-        posts.append(res_json['data'][i]['text'])
+        temp_post = res_json['data'][i]['text']
+        temp_post = " ".join(filter(lambda x: x[0] != '@', temp_post.split()))
+        temp_post = " ".join(filter(lambda x: x[0] != '#', temp_post.split()))
+        posts.append(temp_post)
+    print(posts)
     return posts
 
 
