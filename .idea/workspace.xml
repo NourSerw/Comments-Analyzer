@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b15d157-f45d-4298-a958-2a4f7b1b6776" name="Default Changelist" comment="" />
+    <list default="true" id="2b15d157-f45d-4298-a958-2a4f7b1b6776" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/baseNewSimple.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/css/opensans-font.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-Bold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-BoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-ExtraBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-ExtraBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-Italic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-Light.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-LightItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-Regular.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-SemiBold.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/Open_Sans/OpenSans-SemiBoldItalic.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/css/line-awesome-font-awesome.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/css/line-awesome-font-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/css/line-awesome.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/css/line-awesome.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/fonts/line-awesome.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/fonts/line-awesome.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/fonts/line-awesome.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/fonts/line-awesome.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commentsanalyzer/templates/fonts/line-awesome/fonts/line-awesome.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commentsanalyzer/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/commentsanalyzer/templates/base.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,26 +39,64 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+            <state relative-caret-position="17">
+              <caret line="1" column="34" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/query_result.html">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="25" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="25" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="334">
+              <caret line="24" column="17" lean-forward="true" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/baseNewSimple.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="448">
+              <caret line="48" column="74" selection-start-line="48" selection-start-column="74" selection-end-line="48" selection-end-column="74" />
+              <folding>
+                <element signature="n#nav#0;n#body#0;n#html#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/about.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/commentsanalyzer/flask_app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="31" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="31" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/home_page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
+            <state relative-caret-position="51">
               <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
             </state>
           </provider>
@@ -43,6 +107,15 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>get_bearer_token()</find>
+      <find>title</find>
+      <find>base</find>
+      <find>render_template(</find>
+      <find>render_template</find>
+      <find>base.html</find>
+      <find>render</find>
+      <find>base.h</find>
+      <find>333</find>
+      <find>CommentsAnalyzer</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -57,12 +130,16 @@
         <option value="$PROJECT_DIR$/commentsanalyzer/flask_app.py" />
         <option value="$PROJECT_DIR$/commentsanalyzer/twitter_app.py" />
         <option value="$PROJECT_DIR$/commentsanalyzer/templates/index.html" />
+        <option value="$PROJECT_DIR$/commentsanalyzer/templates/base.html" />
+        <option value="$PROJECT_DIR$/commentsanalyzer/templates/baseNewSimple.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="20" />
+    <option name="y" value="43" />
+    <option name="width" value="1400" />
+    <option name="height" value="837" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -88,6 +165,13 @@
               <item name="commentsanalyzer" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Comments-Analyzer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Comments-Analyzer" type="462c0819:PsiDirectoryNode" />
+              <item name="commentsanalyzer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -96,11 +180,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/commentsanalyzer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/commentsanalyzer/templates" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/commentsanalyzer/templates" />
       <recent name="$PROJECT_DIR$/commentsanalyzer" />
     </key>
   </component>
@@ -180,19 +265,20 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="20" y="43" width="1400" height="837" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24242425" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2008702" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.18915662" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.20469362" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32891566" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32891566" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32771084" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010877" side_tool="true" weight="0.32882273" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49891225" weight="0.32771084" />
@@ -233,16 +319,6 @@
         <state relative-caret-position="-46" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commentsanalyzer/flask_app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/commentsanalyzer/twitter_app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
@@ -269,23 +345,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/home_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
+        <state relative-caret-position="51">
           <caret line="3" column="36" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commentsanalyzer/flask_app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="31" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/query_result.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="25" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+        <state relative-caret-position="17">
+          <caret line="1" column="34" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/query_result.html">
+    <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/about.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/css/style.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/baseNewSimple.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="48" column="74" selection-start-line="48" selection-start-column="74" selection-end-line="48" selection-end-column="74" />
+          <folding>
+            <element signature="n#nav#0;n#body#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/commentsanalyzer/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="24" column="17" lean-forward="true" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
