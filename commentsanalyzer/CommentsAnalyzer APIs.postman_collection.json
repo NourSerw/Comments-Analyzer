@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "5aae530d-4a10-4a27-b31f-5b0964ca4559",
+		"name": "CommentsAnalyzer APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Twitter Singular Tweet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"https://twitter.com/VP/status/1426215721508409344\",\r\n    \"model\": \"General\",\r\n    \"source\": \"Singular_tweet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/ca/twitter/v1/results",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"ca",
+						"twitter",
+						"v1",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Twitter Hashtag",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"Obama\",\r\n    \"model\": \"General\",\r\n    \"source\": \"Hashtag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/ca/twitter/v1/results",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"ca",
+						"twitter",
+						"v1",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reddit Post Comments",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "AAAAAAAAAAAAAAAAAAAAAE6fJAEAAAAAk7qwCxgDY8FTpWdy1yh7h0y3Xlk%3DJQYj4ZabrgTaL1224Qro6FAuZL9NiVAaVyN7i9ddkJhSecuHFx",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"url\": \"https://www.reddit.com/r/worldnews/comments/p3gsrh/kandahar_afghanistans_secondlargest_city_falls_to/\",\r\n    \"model\": \"General\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/ca/reddit/v1/results",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"ca",
+						"reddit",
+						"v1",
+						"results"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

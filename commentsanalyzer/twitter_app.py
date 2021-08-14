@@ -43,6 +43,7 @@ def get_bearer_token():
 def twitter_pipeline(data_dict):
     global data_dict_local
     data_dict_local = data_dict
+    print(data_dict_local)
     if data_dict['Source'] == "Hashtag":
         posts = get_hashtag(data_dict["Data"])
         return twitter_prediction(posts)
@@ -95,32 +96,20 @@ def twitter_prediction(posts):
             neu_weight += 1
         elif label == 1:
             pos_weight += 1
-        words = nltk.word_tokenize(tweet)
-        words = [word for word in words if len(word) > 1]
-        words = [word for word in words if not word.isnumeric()]
-        words = [word.lower() for word in words]
-        words = [word for word in words if word not in stopwords]
-        fdist = nltk.FreqDist(words)
-    most_common = fdist.most_common(10)
-    return get_percentage(neg_weight, neu_weight, pos_weight, most_common)
+    return get_percentage(neg_weight, neu_weight, pos_weight)
 
 
-def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
+def get_percentage(neg_weight, neu_weight, pos_weight):
     total = neg_weight + neu_weight + pos_weight
     print("Percentage of sentiment as following: ")
     print("Negative: " + str(round((neg_weight / total) * 100, 2)))
     print("Neutral: " + str(round((neu_weight / total) * 100, 2)))
     print("Positive: " + str(round((pos_weight / total) * 100, 2)))
     values_dict = {
-        "Total": total,
-        "Negative": neg_weight,
-        "Neutral": neu_weight,
-        "Positive": pos_weight,
         "Topic": data_dict_local['Topic'],
         "neg_percentage": str(round((neg_weight / total) * 100, 2)),
         "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
-        "positive_percentage": str(round((pos_weight / total) * 100, 2)),
-        "most_common_words": most_common
+        "positive_percentage": str(round((pos_weight / total) * 100, 2))
     }
 
     if data_dict_local['Source'] == "Hashtag":

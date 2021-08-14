@@ -3,7 +3,7 @@ import logging
 import os
 
 import nltk
-from werkzeug.exceptions import abort
+from flask import request, jsonify
 import praw
 from flask import Flask, render_template, request, redirect, url_for, abort
 from flask_bootstrap import Bootstrap
@@ -17,9 +17,12 @@ app.static_folder = 'static'
 Bootstrap(app)
 full_url = ''
 submission = ''
-sm_key = {}
+# sm_key = {}
 HEADER_PHOTO = os.path.join('static', 'img')
 app.config['PHOTO'] = HEADER_PHOTO
+sm_key = {"Platform": None,
+          "Topic": None,
+          "Source": None}
 
 
 def reddit_credit(url):
@@ -89,32 +92,20 @@ def get_prediction(posts, clf, vector, neg_weight, neu_weight, pos_weight):
             neu_weight += 1
         elif label == 1:
             pos_weight += 1
-        words = nltk.word_tokenize(comment)
-        words = [word for word in words if len(word) > 1]
-        words = [word for word in words if not word.isnumeric()]
-        words = [word.lower() for word in words]
-        words = [word for word in words if word not in stopwords]
-        fdist = nltk.FreqDist(words)
-    most_common = fdist.most_common(10)
-    return get_percentage(neg_weight, neu_weight, pos_weight, most_common)
+    return get_percentage(neg_weight, neu_weight, pos_weight)
 
 
-def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
+def get_percentage(neg_weight, neu_weight, pos_weight):
     total = neg_weight + neu_weight + pos_weight
     print("Percentage of sentiment as following: ")
     print("Negative: " + str(round((neg_weight / total) * 100, 2)))
     print("Neutral: " + str(round((neu_weight / total) * 100, 2)))
     print("Positive: " + str(round((pos_weight / total) * 100, 2)))
     values_dict = {
-        "Total": total,
-        "Negative": neg_weight,
-        "Neutral": neu_weight,
-        "Positive": pos_weight,
         "Topic": sm_key['Topic'],
         "neg_percentage": str(round((neg_weight / total) * 100, 2)),
         "neutral_percentage": str(round((neu_weight / total) * 100, 2)),
         "positive_percentage": str(round((pos_weight / total) * 100, 2)),
-        "most_common_words": most_common,
         "Post title": submission.title,
         "score": submission.score
     }
@@ -123,6 +114,7 @@ def get_percentage(neg_weight, neu_weight, pos_weight, most_common):
 
 
 def pipeline(url):
+    print("URL: ", url)
     submission = reddit_credit(url)
     posts = get_comments(submission)
     return get_prediction(posts, get_clf(), get_vectorizer(), 0, 0, 0)
@@ -131,9 +123,6 @@ def pipeline(url):
 @app.route('/', methods=['POST', 'GET'])
 def get_data():
     global sm_key
-    sm_key = {"Platform": None,
-              "Topic": None,
-              "Source": None}
     global full_url
     if request.form.get("Dropdown") and request.form.get("Dropdown").strip():
         sm_key['Platform'] = 0
@@ -165,11 +154,13 @@ def get_data():
                 full_url = thread
                 try:
                     twitter_pipeline = {
-                        "Topic": sm_key['Topic'],
-                        "Source": sm_key['Source'],
-                        "Data": thread.split('/', 5)[5]
-                    }
-                    #return redirect(url_for("twitter_success", name=twitter_pipeline))
+                            "Topic": sm_key['Topic'],
+                            "Source": sm_key['Source'],
+                            "Data": thread.split('/', 5)[5]
+                        }
+                    print("twitter_pipeline")
+                    print(twitter_pipeline)
+                    # return redirect(url_for("twitter_success", name=twitter_pipeline))
                 except:
                     abort(404, "You have entered something wrong, please go back and re-enter your link/hashtag")
             return redirect(url_for("twitter_success", name=twitter_pipeline))
@@ -189,10 +180,33 @@ def twitter_success(name):
     name = name.replace("'", "\"")
     name = json.loads(name)
     try:
+        print(name)
         result = twitter_app.twitter_pipeline(name)
         return render_template('query_result.html', results=result)
     except:
         abort(404, "You have entered something wrong, please go back and re-enter your link/hashtag")
+
+
+@app.route('/ca/reddit/v1/results', methods=['POST'])
+def reddit_api():
+    global sm_key
+    content = request.json
+    sm_key = {'Platform': 0, 'Topic': content['model'], 'Source': content['model']}
+    result = pipeline(content['url'])
+    return jsonify(result)
+
+
+@app.route('/ca/twitter/v1/results', methods=['POST'])
+def twitter_api():
+    global sm_key
+    content = request.json
+    sm_key = {'Topic': content['model'], 'Source': content['source']}
+    if content['source'] == 'Hashtag':
+        sm_key['Data'] = content['url']
+    elif content['source'] == 'Singular_tweet':
+        sm_key['Data'] = content['url'].split('/', 5)[5]
+    result = twitter_app.twitter_pipeline(sm_key)
+    return jsonify(result)
 
 
 @app.route('/about')
